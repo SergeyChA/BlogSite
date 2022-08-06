@@ -1,0 +1,12 @@
+body {
+    background-color: white;
+}
+
+.auth input {
+    display: block;
+    width: 50%;
+    height: 20%;
+    margin-top: 5px;
+    border: 1px solid silver;
+    padding: 2%;    
+}

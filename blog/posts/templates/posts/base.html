@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" 
+    crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'posts/main.css'%}">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarsExample09">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home' %}">Главная<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                <a class="nav-link" href="{% url 'contacts' %}">Контакты<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+            </form>
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}">
+                    <button class="btn btn-outline-warning ml-2">Профиль</button>
+                </a>
+                <a href="{% url 'logout' %}">
+                    <button class="btn btn-outline-warning ml-2">Выйти</button>
+                </a>
+            {% else %}
+                <a href="{% url 'register' %}">
+                    <button class="btn btn-outline-warning ml-2">Регистрация</button>
+                </a>
+                <a href="{% url 'login' %}">
+                    <button class="btn btn-outline-warning ml-2">Вход</button>
+                </a>
+            {% endif %}
+        </nav>
+    </div>
+    <div class="container pt-4">
+        {% if messages %}
+            {% for msg in messages %}
+                <div class='alert alert-success'>{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div class="container">
+        <footer class="pt-4 my-md-5 pt-md-5 border-top">
+            <div class="row">
+            <div class="col-12 col-md">
+                <small class="d-block mb-3 text-black">© 2022</small>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Features</h5>
+                <ul class="list-unstyled text-small">
+                <li><a class="text-black" href="#">Cool stuff</a></li>
+                <li><a class="text-black" href="#">Random feature</a></li>
+                <li><a class="text-black" href="#">Team feature</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Resources</h5>
+                <ul class="list-unstyled text-small">
+                <li><a class="text-black" href="#">Resource</a></li>
+                <li><a class="text-black" href="#">Resource name</a></li>
+                <li><a class="text-black" href="#">Another resource</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>About</h5>
+                <ul class="list-unstyled text-small">
+                <li><a class="text-black" href="#">Team</a></li>
+                <li><a class="text-black" href="#">Locations</a></li>
+                <li><a class="text-black" href="#">Privacy</a></li>
+                </ul>
+            </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

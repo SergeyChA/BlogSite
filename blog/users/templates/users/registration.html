@@ -1,0 +1,13 @@
+{% extends 'posts/base.html' %}
+
+{% block title %}
+    Регистрация
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-outline-danger" tupe="submit">Зарегистрироваться</button>
+    </form>
+{% endblock %}
