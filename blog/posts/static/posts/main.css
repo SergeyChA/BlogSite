@@ -10,3 +10,8 @@ body {
     border: 1px solid silver;
     padding: 2%;    
 }
+#id_agreement {
+    float: left;
+    margin-right: 10px;
+    margin-top: 4px;
+}

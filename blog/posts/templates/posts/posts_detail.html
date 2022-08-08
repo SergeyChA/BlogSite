@@ -1,23 +1,21 @@
 {% extends 'posts/base.html' %}
 
 {% block title %}
-    Главная страница
+    {{ object.title }}
 {% endblock %}
 
 {% block content %}
-    {% for post in posts %}
     <div class="alert alert-light">
         <div class="row">
             <div class="col-4">
-                <img src="{{ post.author.profile.img.url }}" alt="{{ post.author }}" class="user_images">
+                <img src="{{ object.author.profile.img.url }}" alt="{{ object.author }}" class="user_images">
             </div>
             <div class="col-8">
                 <span class="text-muted">Дата публикация: {{ post.pub_date|date:"j F Y, время: H:i:s" }}</span>
                 <p><b>Автор:</b> <mark>{{ post.author }}</mark></p>
-                <p>{{ post.title }}</p>
-                <p>{{ post.text }}</p>
+                <p>{{ object.title }}</p>
+                <p>{{ object.text }}</p>
             </div>
         </div>
     </div>
-    {% endfor %}
 {% endblock %}

@@ -6,19 +6,18 @@ from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(
-        label='Введите почту' ,
+        label='Введите почту',
         required=True,
         widget=forms.TextInput(attrs={'class': 'form-control col-6'}))
     username = forms.CharField(
-        label='Введите имя' ,
+        label='Введите имя',
         required=True,
         widget=forms.TextInput(attrs={'class': 'form-control col-6'}))
     password1 = forms.CharField(
-        label='Введите пароль' ,
+        label='Введите пароль',
         required=True, 
         help_text='длинна не менее 8 символов',
-        widget=forms.PasswordInput(attrs={'class': 'form-control col-6'})
-        )
+        widget=forms.PasswordInput(attrs={'class': 'form-control col-6'}))
     password2 = forms.CharField(
         label='Повторите пароль',
         required=True,
@@ -31,11 +30,11 @@ class UserRegisterForm(UserCreationForm):
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField(
-        label='Введите почту' ,
+        label='Введите почту',
         required=True,
         widget=forms.TextInput(attrs={'class': 'form-control col-6'}))
     username = forms.CharField(
-        label='Введите имя' ,
+        label='Введите имя',
         required=True,
         widget=forms.TextInput(attrs={'class': 'form-control col-6'}))
 
@@ -45,10 +44,22 @@ class UserUpdateForm(forms.ModelForm):
 
 class ProfileImageForm(forms.ModelForm):
     img = forms.ImageField(
-        label='фото' ,
+        label='Изменить фото',
         required=False,
         widget=forms.FileInput,
         )
+    sex = forms.CharField(
+        label='Выберите пол*',
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control col-6'}, 
+                            choices=(('male', 'Мужской пол'), ('female', 'Женский пол'))))
+
+    agreement = forms.BooleanField(
+        label='Соглашение на отправку писем на почту',
+        required=False,
+        widget=forms.CheckboxInput,
+        label_suffix='')
+    
     class Meta:
         model = Profile
-        fields = ['img']
+        fields = ['img', 'sex', 'agreement']
