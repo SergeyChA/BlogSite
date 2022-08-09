@@ -10,10 +10,10 @@
         <div class="row">
             <p><img src="{{ object.author.profile.img.url }}" alt="{{ object.author }}" class="user_images post_detail">
                 <span class="text-muted">Дата публикация: {{ object.pub_date|date:"j F Y, время: H:i:s" }}</span><br>
-                <b>Автор:</b> <mark>{{ object.author }}</mark><br>
+                <b>Автор:</b> <mark><a href="{% url 'post_author' object.author %}">{{ object.author }}</a></mark><br>
                 <br>
                 {{ object.title }}<br>
-                {{ object.text }}
+                {{ object.text|safe }}
             </p>
             {% if object.author == user %}
             <a href="{% url 'post_update' object.pk %}" class="btn btn-outline-primary">Редактировать</a>

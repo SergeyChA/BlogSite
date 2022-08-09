@@ -1,15 +1,13 @@
 {% extends 'posts/base.html' %}
 
 {% block title %}
-    Авторизация
+    Восстановление пароля
 {% endblock %}
 
 {% block content %}
     <form method="post" class="auth">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="btn btn-outline-info" tupe="submit">Войти</button>
+        <button class="btn btn-outline-danger" tupe="submit">Восстановить пароль</button>
     </form>
-    <br>
-    <a href="{% url 'pass_reset' %}">*Забыли пароль</a>
 {% endblock %}

@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Posts
+from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .form import PostsCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -7,6 +8,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 class PostsListView(ListView):
     model = Posts
     ordering = ['-pub_date']
+    paginate_by = 10
+
+class AuthorPostListView(ListView):
+    model = Posts
+    paginate_by = 10
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Posts.objects.filter(author=user).order_by('-pub_date')
 
 
 class PostsDetailView(DetailView):
