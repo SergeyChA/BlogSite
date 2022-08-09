@@ -1,5 +1,6 @@
 {% extends 'posts/base.html' %}
 
+
 {% block title %}
     {{ object.title }}
 {% endblock %}
@@ -7,15 +8,17 @@
 {% block content %}
     <div class="alert alert-light">
         <div class="row">
-            <div class="col-4">
-                <img src="{{ object.author.profile.img.url }}" alt="{{ object.author }}" class="user_images">
-            </div>
-            <div class="col-8">
-                <span class="text-muted">Дата публикация: {{ post.pub_date|date:"j F Y, время: H:i:s" }}</span>
-                <p><b>Автор:</b> <mark>{{ post.author }}</mark></p>
-                <p>{{ object.title }}</p>
-                <p>{{ object.text }}</p>
-            </div>
+            <p><img src="{{ object.author.profile.img.url }}" alt="{{ object.author }}" class="user_images post_detail">
+                <span class="text-muted">Дата публикация: {{ object.pub_date|date:"j F Y, время: H:i:s" }}</span><br>
+                <b>Автор:</b> <mark>{{ object.author }}</mark><br>
+                <br>
+                {{ object.title }}<br>
+                {{ object.text }}
+            </p>
+            {% if object.author == user %}
+            <a href="{% url 'post_update' object.pk %}" class="btn btn-outline-primary">Редактировать</a>
+            <a href="{% url 'post_delete' object.pk %}" class="btn btn-outline-danger ml-2">Удалить</a>
+            {% endif%}
         </div>
     </div>
 {% endblock %}

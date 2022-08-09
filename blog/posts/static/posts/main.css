@@ -15,3 +15,9 @@ body {
     margin-right: 10px;
     margin-top: 4px;
 }
+
+.post_detail {
+    float: left;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
