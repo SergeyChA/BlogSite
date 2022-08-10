@@ -15,10 +15,36 @@
                 {{ object.title }}<br>
                 {{ object.text|safe }}
             </p>
-            {% if object.author == user %}
-            <a href="{% url 'post_update' object.pk %}" class="btn btn-outline-primary">Редактировать</a>
-            <a href="{% url 'post_delete' object.pk %}" class="btn btn-outline-danger ml-2">Удалить</a>
-            {% endif%}
         </div>
     </div>
+    <div class="class container mb-4">
+        {% if object.author == user %}
+            <a href="{% url 'post_update' object.pk %}" class="btn btn-outline-primary">Редактировать</a>
+            <a href="{% url 'post_delete' object.pk %}" class="btn btn-outline-danger ml-2">Удалить</a>
+        {% endif%}
+    </div>
+    {% for comment in comments %}
+    <div class="media text-muted pt-3">
+        <img class="bd-placeholder-img mr-2 rounded" width="64" height="64" src="{{ comment.author.profile.img.url }}">
+        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+          <strong class="d-block text-gray-dark">{{ user.username }}</strong>
+          {% if comment.author.email %}
+            <b>Email:</b> {{ comment.author.email }}<br>
+            {{ comment.text }}<br>
+            {{ comment.pub_date }}<br>
+            {% if comment.author == user %}
+                <a href="{% url 'comment_update' comment.pk %}">Редактировать</a>
+                <a href="{% url 'comment_delete' comment.pk %}">Удалить</a>
+            {% endif %}
+          {% endif %}
+        </p>
+    </div>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-outline-primary" type="submit">Оставить комментарий</button>
+    </form>
+    {% endif %}
 {% endblock %}
