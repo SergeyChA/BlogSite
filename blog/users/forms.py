@@ -15,7 +15,7 @@ class UserRegisterForm(UserCreationForm):
         widget=forms.TextInput(attrs={'class': 'form-control col-6'}))
     password1 = forms.CharField(
         label='Введите пароль',
-        required=True, 
+        required=True,
         help_text='длинна не менее 8 символов',
         widget=forms.PasswordInput(attrs={'class': 'form-control col-6'}))
     password2 = forms.CharField(
@@ -42,16 +42,16 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['username', 'email']
 
+
 class ProfileImageForm(forms.ModelForm):
     img = forms.ImageField(
         label='Изменить фото',
         required=False,
-        widget=forms.FileInput,
-        )
+        widget=forms.FileInput)
     sex = forms.CharField(
         label='Выберите пол*',
         required=False,
-        widget=forms.Select(attrs={'class': 'form-control col-6'}, 
+        widget=forms.Select(attrs={'class': 'form-control col-6'},
                             choices=(('male', 'Мужской пол'), ('female', 'Женский пол'))))
 
     agreement = forms.BooleanField(
@@ -59,7 +59,7 @@ class ProfileImageForm(forms.ModelForm):
         required=False,
         widget=forms.CheckboxInput,
         label_suffix='')
-    
+
     class Meta:
         model = Profile
         fields = ['img', 'sex', 'agreement']

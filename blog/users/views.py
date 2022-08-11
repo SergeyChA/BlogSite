@@ -1,8 +1,8 @@
-from cmath import log
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm, ProfileImageForm, UserUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
 
 def register(request):
     if request.method == 'POST':
@@ -16,6 +16,7 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'users/registration.html', context={'form': form})
 
+
 @login_required
 def profile(request):
     if request.method == 'POST':
@@ -24,10 +25,10 @@ def profile(request):
         if profile_form.is_valid and update_form.is_valid:
             profile_form.save()
             update_form.save()
-            messages.success(request, f'Ваш аккаунт был изменен')
+            messages.success(request, 'Ваш аккаунт был изменен')
             return redirect('profile')
     else:
         profile_form = ProfileImageForm(instance=request.user.profile)
         update_form = UserUpdateForm(instance=request.user)
-    return render(request, 'users/profile.html', context={'profile_form': profile_form, 
+    return render(request, 'users/profile.html', context={'profile_form': profile_form,
                                                           'update_form': update_form})

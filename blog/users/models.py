@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
-from django.urls import reverse
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, verbose_name='пользователь', on_delete=models.CASCADE)
@@ -22,7 +22,5 @@ class Profile(models.Model):
             image.thumbnail(resize)
             image.save(self.img.path)
 
-
     def __str__(self):
         return self.user.username
-

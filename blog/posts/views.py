@@ -1,11 +1,11 @@
-from xml.etree.ElementTree import QName
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q
 from .models import Posts, Comments
 from django.contrib.auth.models import User
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .form import PostsCreateForm, CommentsCreateForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
+from .form import PostsCreateForm, CommentsCreateForm, ContactsForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
 
 class PostsListView(ListView):
     model = Posts
@@ -20,6 +20,7 @@ class PostsListView(ListView):
         else:
             posts = Posts.objects.all().order_by('-pub_date')
         return posts
+
 
 class AuthorPostListView(ListView):
     model = Posts
@@ -40,7 +41,7 @@ class PostsDetailView(DetailView):
         context['form'] = form
         context['comments'] = comments
         return context
-    
+
     def post(self, request, pk):
         form = CommentsCreateForm(data=request.POST)
         form.instance.author_id = self.request.user.id
@@ -48,6 +49,7 @@ class PostsDetailView(DetailView):
         if form.is_valid():
             form.save()
         return redirect('post', pk)
+
 
 class CommentsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comments
@@ -60,10 +62,11 @@ class CommentsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+
 class CommentsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comments
     template_name = 'posts/comment_delete.html'
-    
+
     def test_func(self):
         post = self.get_object()
         if self.request.user == post.author:
@@ -72,7 +75,8 @@ class CommentsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return f'/post/{self.object.post_id}'
-  
+
+
 class PostsCreateView(LoginRequiredMixin, CreateView):
     model = Posts
     form_class = PostsCreateForm
@@ -107,7 +111,6 @@ class PostsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        print(self.request.user)
         return super().form_valid(form)
 
 
@@ -115,7 +118,6 @@ class PostsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Posts
     success_url = '/'
     template_name = 'posts/posts_delete.html'
-    
 
     def test_func(self):
         post = self.get_object()
@@ -124,5 +126,7 @@ class PostsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
-def contacts(request):
-    return render (request, 'posts/contacts.html')
+class ContactsFofmView(FormView):
+    form_class = ContactsForm
+    template_name = 'posts/contacts.html'
+    success_url = '/'
