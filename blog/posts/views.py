@@ -1,5 +1,6 @@
+from xml.etree.ElementTree import QName
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy, reverse
+from django.db.models import Q
 from .models import Posts, Comments
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -10,6 +11,15 @@ class PostsListView(ListView):
     model = Posts
     ordering = ['-pub_date']
     paginate_by = 10
+
+    def get_queryset(self):
+        search_query = self.request.GET.get('search', '')
+
+        if search_query:
+            posts = Posts.objects.filter(Q(title__icontains=search_query) | Q(text__icontains=search_query)).order_by('-pub_date')
+        else:
+            posts = Posts.objects.all().order_by('-pub_date')
+        return posts
 
 class AuthorPostListView(ListView):
     model = Posts
@@ -28,7 +38,7 @@ class PostsDetailView(DetailView):
         comments = Comments.objects.filter(post_id=self.kwargs.get('pk')).order_by('-pub_date')
         form = CommentsCreateForm()
         context['form'] = form
-        context['comments'] = comments 
+        context['comments'] = comments
         return context
     
     def post(self, request, pk):
