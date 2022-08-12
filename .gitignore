@@ -2,6 +2,7 @@
 .vscode/
 migrations/
 profile_img/
+*.djcache
 __pycache__/
 *.py[cod]
 *$py.class

@@ -9,7 +9,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 class PostsListView(ListView):
     model = Posts
-    ordering = ['-pub_date']
     paginate_by = 10
 
     def get_queryset(self):
