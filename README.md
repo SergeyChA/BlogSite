@@ -1,1 +1,1 @@
-New project Django
+Blog
